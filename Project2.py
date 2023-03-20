@@ -309,15 +309,26 @@ class Work(QThread):
         self.hillo =True
         cap = cv2.VideoCapture(0)
         while self.hillo:
-            ret , frame= cap.read()
-            if ret:
-                Image = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
+            self.ret , self.frame= cap.read()
+            if self.ret:
+                Image = cv2.cvtColor(self.frame,cv2.COLOR_BGR2RGB)
                 flip = cv2.flip(Image,1)
                 convert= QImage(flip.data, flip.shape[1],flip.shape[0],QImage.Format_RGB888)
                 pic=convert.scaled(640,480,Qt.KeepAspectRatio)
                 self.Imageupd.emit(pic)
+
     def stop(self):
-        self.hillo=False
+        self.logic=2
+        if (self.logic == 2):
+
+            cv2.imwrite("E:\\photo\\s.png",self.frame)
+            self.logic=1
+
+
+
+
+
+
      #   self.quit()
 
 
